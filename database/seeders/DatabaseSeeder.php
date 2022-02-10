@@ -15,5 +15,20 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
+        $tags = \App\Models\Tag::factory(100)->create();
+        $articles = \App\Models\Article::factory(20)->create();
+
+        $tags_id = $tags->pluck('id');
+
+        $articles->each(function ($article) use ($tags_id){
+            $article->tags()->attach($tags_id->random(10));
+            \App\Models\Comment::factory(3)->create([
+                'article_id' => $article->id
+            ]);
+
+            \App\Models\State::factory(1)->create([
+                'article_id' => $article->id
+            ]);
+        });
     }
 }
