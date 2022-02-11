@@ -2,15 +2,20 @@
 
 Выполнить две команды в корне проекта 
 
-docker run --rm
--u "$(id -u):$(id -g)"
--v "$(pwd)":/opt
--w /opt
-laravelsail/php81-composer:latest
+<pre>
+docker run --rm \
+-u "$(id -u):$(id -g)" \
+-v "$(pwd)":/opt \
+-w /opt \
+laravelsail/php81-composer:latest \
 composer install --ignore-platform-reqs
 
-docker-compose up --buid
+docker-compose up --build
+
+</pre>
 
 Для удобной работы добавляем алиас
 
-alias sail="./vendor/bim/sail"
+<pre>
+alias sail="./vendor/bin/sail"
+</pre>
