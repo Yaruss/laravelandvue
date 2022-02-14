@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('article-json', [App\Http\Controllers\ApiArticleControllers::class, 'show'])->name('ajax.request');
+
+

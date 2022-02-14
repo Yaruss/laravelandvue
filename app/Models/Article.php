@@ -22,4 +22,7 @@ class Article extends Model
     public function tags() {
         return $this->belongsToMany(Tag::class);
     }
+    public function createdAtForHumans() {
+        return $this->created_at->diffForHumans();
+    }
 }
