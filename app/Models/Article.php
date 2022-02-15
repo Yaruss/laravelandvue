@@ -10,6 +10,7 @@ class Article extends Model
     use HasFactory;
     protected $fillable = ['title', 'body', 'img', 'slug'];
     protected $guarded = [];
+    public $PageCountItem = 12;
 
     public function  comments() {
         return $this->hasMany(Comment::class);
@@ -25,4 +26,14 @@ class Article extends Model
     public function createdAtForHumans() {
         return $this->created_at->diffForHumans();
     }
+    public function scopeAllPaginate($query) {
+        return $query->with('tags', 'state')->orderBy('created_at', 'desc')->paginate($this->PageCountItem);
+    }
+    public function scopeFindBySlag($query, $slug) {
+        return $query->with('comments','tags', 'state')->where('slug', $slug)->firstOrFail();
+    }
+    public function scopeFindByTag($query) {
+        return $query->with('tags', 'state')->orderBy('created_at', 'desc')->paginate($this->PageCountItem);
+    }
+
 }
