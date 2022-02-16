@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/article', [App\Http\Controllers\ArticleController::class, 'index'])->name('article');
+Route::get('/article/', [App\Http\Controllers\ArticleController::class, 'index'])->name('article');
 
-Route::get('/article/{slug}', [App\Http\Controllers\ArticleController::class, 'showSlag'])->name('article.showSlag');
+Route::get('/article/{slug}', [App\Http\Controllers\ArticleController::class, 'showSlug'])->name('article.slug');
 
 Route::get('/article/tag/{tag}', [App\Http\Controllers\ArticleController::class, 'byTag'])->name('article.tag');

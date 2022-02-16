@@ -12,12 +12,13 @@ class ArticleController extends Controller
         $articles = Article::allPaginate();
         return view('app.article', compact('articles'));
     }
-    public function showSlag($slug) {
-        $article = Article::FingBySlag($slug);
+    public function showSlug($slug) {
+        $article = Article::FindBySlug($slug);
         return view('app.article', compact('article'));
     }
-    public function byTag(Tag $tag) {
-        $articles = $tag->articles()->findByTag();
-        return view('app.article', compact('articles'));
+    public function byTag($tag) {
+        $tags = Tag::all();
+        $articles = Article::FindByTag($tag);
+        return view('app.articlefromtag', compact('articles', 'tags'));
     }
 }
