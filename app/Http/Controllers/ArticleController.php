@@ -14,7 +14,7 @@ class ArticleController extends Controller
     }
     public function showSlug($slug) {
         $article = Article::FindBySlug($slug);
-        return view('app.article', compact('article'));
+        return view('app.articleshow', compact('article'));
     }
     public function byTag($tag) {
         $tags = Tag::all();
