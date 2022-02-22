@@ -3,6 +3,7 @@
     <div id="app">
         <div class="row mt-5">
             <div class="col-12 p-3">
+                <example-component></example-component>
                 <img src="{{$article->img}}" class="border rounded mx-auto d-block" alt="...">
                 <h5 class="mt-5">{{$article->title}}</h5>
                 <p>
@@ -50,5 +51,5 @@
 
 @endsection
 @section('vue')
-
+    <script src="{{ mix('/js/app.js') }}"></script>
 @endsection

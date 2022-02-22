@@ -28,6 +28,7 @@
         </div>
     </nav>
     @yield('content')
+    @yield('vue')
 </div>
 </body>
 </html>
