@@ -3,20 +3,14 @@
     <div id="app">
         <div class="row mt-5">
             <div class="col-12 p-3">
-                <example-component></example-component>
                 <img src="{{$article->img}}" class="border rounded mx-auto d-block" alt="...">
                 <h5 class="mt-5">{{$article->title}}</h5>
                 <p>
-                    @foreach($article->tags as $tag)
-                        @if($loop->last)
-                            <span class="tag">{{$tag->label}}</span>
-                        @else
-                            <span class="tag">{{$tag->label}} |</span>
-                        @endif
-                    @endforeach
+                    <tag-component></tag-component>
                 </p>
                 <p class="card-text">{{$article->body}}</p>
                 <p>Опубликованно:  <i>{{$article->createdAtForHumans()}}</i></p>
+                <state-component></state-component>
             </div>
         </div>
         <hr>
@@ -32,20 +26,7 @@
                 </div>
                 <button class="btn btn-success" type="submit">Отправить</button>
             </form>
-            <div class="container pb-5 mt-5">
-                @foreach($article->comments as $comment)
-                    <div class="showing">
-                        <div class="toast-header">
-                            <img src="https://via.placeholder.com/50/5F113B/FFFFFF/?text=User" class="rounded me-2" alt="...">
-                            <strong class="me-auto">{{$comment->subject}}</strong>
-                            <small class="text-muted">{{$comment->createdAtForHumans()}}</small>
-                        </div>
-                        <div class="toast-body">
-                            {{$comment->body}}
-                        </div>
-                    </div>
-                @endforeach
-            </div>
+            <comment-component></comment-component>
         </div>
     </div>
 

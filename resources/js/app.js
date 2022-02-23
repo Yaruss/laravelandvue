@@ -6,27 +6,19 @@ import { createApp } from 'vue'
 
 import store from './store'
 
-const app = createApp({});
+const app = createApp({
+    created() {
+        this.$store.dispatch('getArticleData');
+    }
+});
 
-app.component('example-component', require('./components/ExampleComponent.vue').default);
+//app.component('example-component', require('./components/ExampleComponent.vue').default);
+app.component('state-component', require('./components/StateComponent.vue').default);
+app.component('comment-component', require('./components/CommentComponent.vue').default);
+app.component('tag-component', require('./components/TagComponent.vue').default);
+
 app.use(store);
 app.mount('#app');
 
-/*
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
-Vue.use(store);
-Vue.mount('#app');
 
-//*
-const app = new Vue({
-    store,
-    el: '#app',
-});
-//*/
-console.log(0);
-
-console.log(store);
-console.log(app);
-
-console.log(1);

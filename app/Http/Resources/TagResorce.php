@@ -17,7 +17,8 @@ class TagResorce extends JsonResource
     {
         return [
             'id' => $this->id,
-            'label' => Str::ucfirst($this->label)
+            'label' => Str::ucfirst($this->label),
+            'url' => route('article.tag', $this->label)
         ];
     }
 }
