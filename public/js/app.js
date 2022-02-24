@@ -22805,11 +22805,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: {
+    isLike: function isLike() {
+      return this.$store.state.like;
+    },
     viewsNumber: function viewsNumber() {
       return this.$store.getters.articleViews;
     },
     likesNumber: function likesNumber() {
       return this.$store.getters.articleLikes;
+    }
+  },
+  methods: {
+    addLike: function addLike() {
+      this.$store.dispatch('addLike', {
+        slug: this.$store.state.slug,
+        increment: this.isLike
+      });
     }
   },
   mounted: function mounted() {
@@ -22833,7 +22844,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: {
     tags: function tags() {
-      console.log(this.$store.state.article.tags);
       return this.$store.state.article.tags;
     }
   },
@@ -22916,32 +22926,36 @@ __webpack_require__.r(__webpack_exports__);
 var _hoisted_1 = {
   "class": "mt-3"
 };
-var _hoisted_2 = {
-  "class": "badge bg-primary"
-};
 
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "bi bi-hand-thumbs-up"
 }, null, -1
 /* HOISTED */
 );
 
-var _hoisted_4 = {
-  "class": "badge bg-danger"
+var _hoisted_3 = {
+  "class": "badge bg-primary"
 };
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "bi bi-eye"
 }, null, -1
 /* HOISTED */
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.viewsNumber) + " ", 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $options.addLike();
+    }),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isLike ? 'bg-danger' : 'bg-primary', "badge"])
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.likesNumber) + " ", 1
   /* TEXT */
-  ), _hoisted_3]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.likesNumber) + " ", 1
+  ), _hoisted_2], 2
+  /* CLASS */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.viewsNumber) + " ", 1
   /* TEXT */
-  ), _hoisted_5])]);
+  ), _hoisted_4])]);
 }
 
 /***/ }),
@@ -22998,7 +23012,12 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bu
 
 var app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({
   created: function created() {
-    this.$store.dispatch('getArticleData');
+    var url = window.location.pathname;
+    var slug = url.substring(url.lastIndexOf('/') + 1);
+    console.log(slug);
+    this.$store.commit('SET_SLUG', slug);
+    this.$store.dispatch('getArticleData', slug);
+    this.$store.dispatch('viewsIncrement', slug);
   }
 }); //app.component('example-component', require('./components/ExampleComponent.vue').default);
 
@@ -23069,14 +23088,42 @@ __webpack_require__.r(__webpack_exports__);
         likes: 0,
         views: 0
       }
-    }
+    },
+    slug: '',
+    like: true
   },
   actions: {
     getArticleData: function getArticleData(context, payload) {
-      axios.get('/api/article-json?p').then(function (response) {
+      axios.get('/api/article-json', {
+        params: {
+          slug: payload
+        }
+      }).then(function (response) {
         context.commit('SET_ARTICLE', response.data.data);
       })["catch"](function () {
         console.log('Error /api/article-json');
+      });
+    },
+    viewsIncrement: function viewsIncrement(context, payload) {
+      setTimeout(function () {
+        axios.put('/api/article-views-increment', {
+          slug: payload
+        }).then(function (response) {
+          context.commit('SET_ARTICLE', response.data.data);
+        })["catch"](function () {
+          console.log('Error /api/article-views-increment');
+        });
+      }, 5000);
+    },
+    addLike: function addLike(context, payload) {
+      axios.put('/api/article-likes-increment', {
+        slug: payload.slug,
+        increment: payload.increment
+      }).then(function (response) {
+        context.commit('SET_ARTICLE', response.data.data);
+        context.commit('SET_LIKE', !context.state.like);
+      })["catch"](function () {
+        console.log('Error /api/article-like-increment');
       });
     }
   },
@@ -23091,6 +23138,12 @@ __webpack_require__.r(__webpack_exports__);
   mutations: {
     SET_ARTICLE: function SET_ARTICLE(state, payload) {
       return state.article = payload;
+    },
+    SET_SLUG: function SET_SLUG(state, payload) {
+      return state.slug = payload;
+    },
+    SET_LIKE: function SET_LIKE(state, payload) {
+      return state.like = payload;
     }
   }
 }));

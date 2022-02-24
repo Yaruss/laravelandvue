@@ -20,4 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('article-json', [App\Http\Controllers\ApiArticleControllers::class, 'show'])->name('ajax.request');
 
+Route::put('article-views-increment', [App\Http\Controllers\ApiArticleControllers::class, 'viewsIncrement'])->name('ajax.views-increment');
+Route::put('article-likes-increment', [App\Http\Controllers\ApiArticleControllers::class, 'likesIncrement'])->name('ajax.likes-increment');
+
 
