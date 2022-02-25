@@ -13,7 +13,9 @@ export default createStore({
             }
         },
         slug: '',
-        like: true
+        like: true,
+        commentSuccess: false,
+        errors: []
     },
     actions: {
         getArticleData(context, payload){
@@ -39,6 +41,18 @@ export default createStore({
             }).catch(() => {
                 console.log('Error /api/article-like-increment');
             });
+        },
+        addComment(context, payload) {
+            axios.post('/api/article-add-comment', {subject: payload.subject, body: payload.body, article_id: payload.article_id}).then(() => {
+                context.commit("SET_COMMENT_SUCCESS", !context.state.commentSuccess);
+                context.dispatch('getArticleData', context.state.slug);
+            }).catch((error) => {
+                console.log('Error /api/article-add-comment');
+                if(error.response.status === 422){
+                    console.log(error.response.data.errors);
+                    context.commit("SET_COMMENT_ERROR", error.response.data.errors);
+                }
+            });
         }
     },
     getters: {
@@ -58,6 +72,12 @@ export default createStore({
         },
         SET_LIKE(state, payload){
             return state.like = payload;
+        },
+        SET_COMMENT_SUCCESS(state, payload){
+            return state.commentSuccess = payload;
+        },
+        SET_COMMENT_ERROR(state, payload){
+            return state.errors = payload;
         }
     }
 });
