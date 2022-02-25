@@ -16,10 +16,10 @@ class ArticleResorce extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'img' => $this->img,
-            'body' => $this->body,
-            'created_at' => $this->createdAtForHumans(),
+            //'title' => $this->title,
+            //'img' => $this->img,
+            //'body' => $this->body,
+            //'created_at' => $this->createdAtForHumans(),
             'comments' => CommentResorce::collection($this->whenLoaded('comments')),
             'tags' => TagResorce::collection($this->whenLoaded('tags')),
             'statistic' => new StateResorce($this->whenLoaded('state'))
