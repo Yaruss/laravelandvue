@@ -4,8 +4,16 @@ window.Vue = require('vue').default;
 
 import { createApp } from 'vue'
 
-import store from './store'
+import authstore from './store/auth'
+const auth = createApp({
 
+});
+auth.component('registration-component', require('./components/Auth/RegistrationComponent').default);
+auth.use(authstore);
+auth.mount('#auth');
+
+
+import store from './store'
 const app = createApp({
     created() {
         let url = window.location.pathname;

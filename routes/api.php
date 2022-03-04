@@ -14,16 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::get('article-json', [App\Http\Controllers\ApiArticleControllers::class, 'show'])->name('ajax.request');
 
 Route::put('article-views-increment', [App\Http\Controllers\ApiArticleControllers::class, 'viewsIncrement'])->name('ajax.views-increment');
 Route::put('article-likes-increment', [App\Http\Controllers\ApiArticleControllers::class, 'likesIncrement'])->name('ajax.likes-increment');
 
 Route::post('article-add-comment', [App\Http\Controllers\ApiCommentControler::class, 'store'])->name('ajax.add-comment');
+
+Route::post('registration', [App\Http\Controllers\Auth\RegistrationController::class, 'show'])->name('registration');
 
 Route::fallback(function() {
     abort(404);

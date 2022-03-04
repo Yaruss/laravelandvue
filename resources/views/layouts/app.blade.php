@@ -27,6 +27,9 @@
             </a>
         </div>
     </nav>
+    <div id="auth">
+        <registration-component></registration-component>
+    </div>
     @yield('content')
     @yield('vue')
 </div>
