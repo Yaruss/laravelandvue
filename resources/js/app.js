@@ -9,6 +9,7 @@ const auth = createApp({
 
 });
 auth.component('registration-component', require('./components/Auth/RegistrationComponent').default);
+auth.component('login-component', require('./components/Auth/LoginComponent').default);
 auth.use(authstore);
 auth.mount('#auth');
 

@@ -1,16 +1,16 @@
 <template>
-    <li class="nav-item" v-if="!registrationSuccess">
-        <a class="nav-link active" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#registration">Регистрация</a>
+    <li class="nav-item" v-if="!loginSuccess">
+        <a class="nav-link active" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#login">Вход</a>
     </li>
 
-    <div class="modal" tabindex="-1" id="registration">
+    <div class="modal" tabindex="-1" id="login">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Регистрация</h5>
+                    <h5 class="modal-title">Вход</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                 </div>
-                <form @submit.prevent="submit_form()" v-if="!registrationSuccess">
+                <form @submit.prevent="submit_form()" v-if="!loginSuccess">
                     <div class="modal-body">
                         <div class="mb-3">
                             <div class="alert alert-warning" role="alert" v-if="errorsMessage.user">
@@ -20,13 +20,6 @@
                             <input type="text" class="form-control" id="registrationName" v-model="name">
                             <div class="alert alert-warning" role="alert" v-if="errorsMessage.name">
                                 {{errorsMessage.name[0]}}
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="registrationEmail" class="form-label">Email</label>
-                            <input type="text" class="form-control" id="registrationEmail" v-model="email">
-                            <div class="alert alert-warning" role="alert" v-if="errorsMessage.email">
-                                {{errorsMessage.email[0]}}
                             </div>
                         </div>
                         <div class="mb-3">
@@ -41,9 +34,9 @@
                         <button class="btn btn-success" type="submit">Отправить</button>
                     </div>
                 </form>
-                <div class="modal-body" v-if="registrationSuccess">
+                <div class="modal-body" v-if="loginSuccess">
                     <div class="alert alert-success" role="alert">
-                        Пользователь создан
+                        Вход выполнен успешно.
                     </div>
                 </div>
             </div>
@@ -56,13 +49,12 @@
         data() {
             return{
                 name: '',
-                email: '',
                 password: ''
             }
         },
         computed: {
-            registrationSuccess() {
-                return this.$store.state.registrationSuccess;
+            loginSuccess() {
+                return this.$store.state.loginSuccess;
             },
             errorsMessage() {
                 return this.$store.state.errors;
@@ -70,15 +62,14 @@
         },
         methods: {
             submit_form() {
-                this.$store.dispatch('addUser', {
+                this.$store.dispatch('loginUser', {
                     name: this.name,
-                    email: this.email,
                     password: this.password
                 });
             }
         },
         mounted() {
-            console.log('Component Registration mounted.');
+            console.log('Component Login mounted.');
         }
     }
 </script>

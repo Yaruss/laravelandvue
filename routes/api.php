@@ -22,6 +22,7 @@ Route::put('article-likes-increment', [App\Http\Controllers\ApiArticleController
 Route::post('article-add-comment', [App\Http\Controllers\ApiCommentControler::class, 'store'])->name('ajax.add-comment');
 
 Route::post('registration', [App\Http\Controllers\Auth\RegistrationController::class, 'show'])->name('registration');
+Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'show'])->name('login');
 
 Route::fallback(function() {
     abort(404);

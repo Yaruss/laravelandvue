@@ -22,14 +22,15 @@
                        href="{{ route('article') }}">Каталог статей</a>
                 </li>
             </ul>
-            <a class="d-flex justify-content-end " href="https://github.com/rageserg">
+            <ul class="nav justify-content-end" id="auth">
+                <login-component></login-component>
+                <registration-component></registration-component>
+            </ul>
+            <a class="d-flex justify-content-end " href="https://github.com/yaruss">
                 <i class="bi bi-github" style="font-size: 2rem; color: #000000;"></i>
             </a>
         </div>
     </nav>
-    <div id="auth">
-        <registration-component></registration-component>
-    </div>
     @yield('content')
     @yield('vue')
 </div>
