@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -14,15 +11,24 @@ class LoginController extends Controller
 
         $fild = $request->all();
 
-        if(!User::where('name', $fild['name'])->where('password', Hash::make($fild['password']))->exists()){
+        if(!Auth::attempt($fild, true)){
             return response()->json([
                 'errors' =>
-                    ['user' => ['Не верное имя или пароль']]
+                    ['user' => ['Не верное имя или пароль.']]
             ],422);
         }
 
         return response()->json([
-            'login' => 'success'
+            'login' => 'Вы успешно авторизовались.'
         ], 201);
+    }
+    public function userInfo(){
+        $user = Auth::user();
+        return response()->json([
+            $user
+        ], 201);
+    }
+    public function logout(){
+        Auth::logout();
     }
 }

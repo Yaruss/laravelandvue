@@ -23,6 +23,8 @@ Route::post('article-add-comment', [App\Http\Controllers\ApiCommentControler::cl
 
 Route::post('registration', [App\Http\Controllers\Auth\RegistrationController::class, 'show'])->name('registration');
 Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'show'])->name('login');
+Route::get('userinfo', [App\Http\Controllers\Auth\LoginController::class, 'userInfo'])->name('userinfo');
+Route::get('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
 Route::fallback(function() {
     abort(404);
